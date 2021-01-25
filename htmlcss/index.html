@@ -9,11 +9,17 @@
         <link rel="contents" href="index.html">
         <link rel="prev" href="page1.html">
         <link rel="next" href="page3.html">
+        <link rel="stylesheet" type="text/css" href="example.css" media="screen,tv">
+        <style type="text/css">
+            h1 {color: #ff0000;}
+            h2 {color: #ff0000;}
+            p {line-height: 140%;}
+        </style>
     </head>
     <body>
         <!-- div: 汎用的に使用できるブロックレベル要素。 -->
         <div id="div" class="div">
-            <h1>これはh1タグです</h1>
+            <h1>HTML Tag Samples</h1>
             <em>こ、</em><strong>こ、</strong>これはh1<strong>タグ</strong>ではありません<br />
             <!-- a: アンカータグはリンクの出発点、または到達点を示す要素 -->
             <a href="file:///Users/jumpei/dev/train/htmlcss/index.html" target="_blank">index.html</a>
@@ -88,5 +94,30 @@
             <p><input type="image" src="https://dictionary.cambridge.org/ja/images/thumb/button_noun_002_05071.jpg?version=5.0.147" alt="送信ボタン"></p>
             <p><input type="button" value="汎用ボタン"></p>
         </form>
+        <textarea name="example" cols="50" rows="10"></textarea>
+        <br>
+        <select name="example">
+            <option value="A">Aです</option>
+            <option value="B">Bです</option>
+            <option value="C">Cです</option>
+        </select>
+        <br>
+        <hr>
+        <h2>button and input (type button)</h2>
+        <!-- button には内容を配置できるので、画像や強調文字などをボタンのラベルとして表示することが可能。 -->
+        <button type="button">button</button>
+        <input type="button" value="type-button">
+        <hr>
+        <h2>label</h2>
+        <!-- label: フォーム部品とラベルを関連付ける要素。ラベル部分のクリックでフォーム部品が選択される状態になる。 -->
+        <p>
+            <label for="name1">お名前</label>
+            <input type="text" name="namae1" id="name1">
+        </p>
+        <p>
+            <label>お名前
+                <input type="text" name="namae2">
+            </label>
+        </p>
     <body>
 </html>
