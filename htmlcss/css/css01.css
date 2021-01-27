@@ -1,38 +1,42 @@
-.header-logo {
-    font-size: 40px;
-    float: left;
-    padding-top: 20px;
-}
+/* .header-logo { */
+/*     font-size: 40px; */
+/*     float: left; */
+/*     padding-top: 20px; */
+/* } */
 
-li {
-    list-style: none;
-    float: left;
-    padding: 20px;
-}
+/* li { */
+/*     list-style: none; */
+/*     float: left; */
+/*     padding: 20px; */
+/* } */
 
-.box {
-    /* border: 1px solid #000; */
-    background-color: darkgray;
-    border-radius: 15px;
-    width: 160px;
-    height: 160px;
-    box-shadow: 3;
+/* .box { */
+/*     /1* border: 1px solid #000; *1/ */
+/*     background-color: darkgray; */
+/*     border-radius: 15px; */
+/*     width: 160px; */
+/*     height: 160px; */
+/*     box-shadow: 3; */
 
-    margin: 0 auto;
-    /* ↑↓ちょっと違うけど見た目は同じような効果 */
-    text-align: center;
+/*     margin: 0 auto; */
+/*     /1* ↑↓ちょっと違うけど見た目は同じような効果 *1/ */
+/*     text-align: center; */
 
-    opacity: 0.5;
+/*     opacity: 0.5; */
 
-    transition-duration: 4s;
-    line-height: 160px;
-}
+/*     transition-duration: 4s; */
+/*     line-height: 160px; */
+/* } */
 
-.box:hover {
-    background-color: orange;
-    color: darkgray;
-}
-.fa-apple {
-    color: white;
-    height: 160px;
+/* .box:hover { */
+/*     background-color: orange; */
+/*     color: darkgray; */
+/* } */
+/* .fa-apple { */
+/*     color: white; */
+/*     height: 160px; */
+/* } */
+
+.flex-list {
+    display: flex;
 }
