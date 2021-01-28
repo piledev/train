@@ -1,3 +1,4 @@
+// strict mode
 'use strict';
 
 // primitive type
@@ -7,15 +8,16 @@ const str = 'abc';
 const sbl = Symbol('abc');
 const boo = true;
 const nll = null;
-// const und;
+const und = undefined;
 
 // object type
 const arr = ['X', 'Y', 'Z'];
-const obj = {
-    first: 'A',
-    second: 'B',
-    third: 'C',
-};
+const obj = { first: 'A', second: 'B', third: 'C' };
+
+// nullish value
+const nullish = [null, undefined];
+// falsy value
+const falsy = [false, undefined, null, 0, 0n, NaN, ''];
 
 const introduceTypes = () => {
     // This is test function
@@ -70,3 +72,146 @@ const introduceOperator = () => {
     // ~(-1) = 0
     // ~0 = -1
 };
+
+const splitInsert = () => {
+    const arr = [1, 2, 3];
+    const [a, b, c] = arr;
+    console.log(a, b, c);
+
+    const obj = {
+        key: 'value',
+    };
+    const { key } = obj;
+    console.log(key);
+};
+
+const introduceFalsyValues = () => {
+    falsy.forEach(v => {
+        if (!v) {
+            console.log(`${v} is falsy.`);
+        }
+    });
+};
+
+const introduceNullishCoalescing = () => {
+    falsy.forEach(v => {
+        // if v is nullish, then sample get 'nullish', otherwise v.
+        const sample = v ?? 'nullish';
+        console.log(`${v} is ${sample}`);
+    });
+};
+
+const introduceRestParameter = () => {
+    const arr = [1, 2, 3];
+    const fn1 = (...rest) => {
+        rest.forEach(v => {
+            console.log(v);
+        });
+        return;
+    };
+    fn1(...arr);
+};
+
+const introduceArgumentsVariable = () => {
+    // arrow関数では使えないし、arguments 変数を使うべき理由はないらしいので忘れよう。
+    console.log(arguments[0]);
+};
+
+const introduceSpecialSplitInsert = () => {
+    const user = { id: 'A01' };
+    // オブジェクトを引数にとり、その中のid プロパティを変数 id として使用する。
+    const fn = ({ id }) => {
+        console.log(`id is ${id}`);
+    };
+    fn(user);
+
+    const arr = [1, 2, 3];
+    const fn2 = ([first, second, third]) => {
+        console.log(`sum is ${first + second + third}`);
+    };
+    fn2(arr);
+};
+
+const introduceMethod = () => {
+    const ob = {
+        prop: 123,
+        method1: () => {
+            return 'this is method1';
+        },
+        // ↓ syntax sugar
+        method2() {
+            return 'this is method2';
+        },
+    };
+    console.log(ob.method1());
+    console.log(ob.method2());
+};
+
+const introduceSome = () => {
+    const numbers = [1, 3, 5, 10, 13, 14, 15];
+    const isPassed = numbers.some(v => {
+        return v % 2 === 0;
+    });
+    console.log(isPassed);
+};
+
+const introduceFilter = () => {
+    const array = [1, 2, 3, 4, 5];
+    const filtered = array.filter(v => {
+        return v % 2 === 0;
+    });
+    console.log(filtered);
+};
+
+const introduceObjectMethods = () => {
+    const ob = {
+        a: 1,
+        b: 2,
+        c: 3,
+    };
+    Object.keys(ob).forEach(key => {
+        const value = ob[key];
+        console.log(`key:${key}, value:${value}`);
+    });
+    Object.values(ob).forEach(value => {
+        console.log(`value:${value}`);
+    });
+    Object.entries(ob).forEach(entry => {
+        console.log(`entry:${entry}, type:${typeof entry}`);
+    });
+};
+
+const introduceReduce = () => {
+    const sum = numbers => {
+        // 変数宣言することなく実装していることに注目。
+        // total は前回のリターン結果
+        return numbers.reduce((total, num) => {
+            return total + num;
+        }, 0); // 初期値: 0
+    };
+    console.log(sum([1, 2, 3, 4, 5]));
+};
+
+const natureOfObject = () => {
+    const id1 = 'test';
+    const obj1 = { [id1]: 'key is "test"', undefined: '???' };
+    console.log(obj1[id1]);
+    console.log(obj1.undefined);
+
+    const id2 = 'success!';
+    const obj2 = {
+        id2,
+    };
+    console.log(obj2[id2] ?? 'failure'); // undefined
+    console.log(obj2['id2'] ?? 'failure'); // 'test'
+    console.log(obj2.id2 ?? 'failure'); // 'test'
+
+    const obj3 = { a: 1, b: 2, c: 3 };
+    delete obj3.b;
+    console.log(obj3);
+};
+// ---------------------------------------------------
+const main = () => {
+    natureOfObject();
+};
+main();
