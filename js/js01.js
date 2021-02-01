@@ -73,7 +73,7 @@ const introduceOperator = () => {
     // ~0 = -1
 };
 
-const splitInsert = () => {
+const splitSubstitution = () => {
     const arr = [1, 2, 3];
     const [a, b, c] = arr;
     console.log(a, b, c);
@@ -117,7 +117,7 @@ const introduceArgumentsVariable = () => {
     console.log(arguments[0]);
 };
 
-const introduceSpecialSplitInsert = () => {
+const introduceSpecialSplitSubstitution = () => {
     const user = { id: 'A01' };
     // オブジェクトを引数にとり、その中のid プロパティを変数 id として使用する。
     const fn = ({ id }) => {
@@ -210,8 +210,47 @@ const natureOfObject = () => {
     delete obj3.b;
     console.log(obj3);
 };
+
+const introduceOptionalChaining = () => {
+    const ob = {
+        a: {
+            b: 'value',
+        },
+    };
+    // .?: 左のオペランドが nullish の場合は undefined を返す。
+    console.log(ob?.a?.b);
+    console.log(ob?.notFound?.notFound);
+    console.log(undefined?.notFound?.notFound);
+    console.log(null?.notFound?.notFound);
+
+    const printObject = o => {
+        // sample の初期値は 'nullish' になる
+        const sample = o?.a?.b ?? 'nullish';
+        console.log(`o.a.b is ${sample}`);
+    };
+    printObject(ob);
+    printObject({});
+
+    //ブラケット記法とも組み合わせ可能
+    console.log(ob?.['a']?.['b']);
+    console.log(ob?.['notFound']?.['notFound']);
+};
+
+const introduceToStringMethod = () => {
+    const obj = {
+        key: 'value',
+    };
+    console.log(String(obj));
+    const customObject = {
+        toString() {
+            return 'custom value';
+        },
+    };
+    // 実は String コンストラクタ関数は toString メソッドを呼んでいる。
+    console.log(String(customObject));
+};
 // ---------------------------------------------------
 const main = () => {
-    natureOfObject();
+    introduceToStringMethod();
 };
 main();
