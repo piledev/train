@@ -252,7 +252,7 @@ const introduceToStringMethod = () => {
 
 const introduceMergeAndCopy = () => {
   // assignによるマージの実装
-  const ob1 = { a: 'a1', b: 'b1', nest: { a: 'nest' } };
+  const ob1 = { a: 'a1', b: 'b1', nest: { level: 2, nest: { level: 3 } } };
   const ob2 = { b: 'b2', c: 'c2' };
 
   // 直接ob1 にマージするとob1の中身も変わってしまうので、空オブジェクトをtargetにするほうがいい
@@ -265,15 +265,38 @@ const introduceMergeAndCopy = () => {
     ...ob2,
   };
   console.log('merged2: ', merged2);
-  // 複製
-  const shallowCopy = o => {
-    const merged3 = Object.assign({}, o);
-    console.log('merged3: ', merged3);
-    return merged3;
+
+  // shallowClone
+  const shallowClone = o => {
+    return Object.assign({}, o);
   };
-  console.log('ob1: ', ob1);
-  const copied = shallowCopy(0b1);
-  console.log('copied: ', copied);
+
+  console.log('ob1          : ', ob1);
+  const shallowCloned = shallowClone(ob1);
+  console.log('shallowCloned: ', shallowCloned);
+  console.log(ob1.nest === shallowCloned.nest); // => true: object の比較結果が一致するということは、アドレスが同じということ。
+  // アドレス一致の確認
+  shallowCloned.nest.level = 99;
+  console.log('ob1.nest.level          : ', ob1.nest.level);
+  console.log('shallowCloned.nest.level: ', shallowCloned.nest.level);
+  ob1.nest.level = 2;
+
+  // deep copy
+  const deepClone = obj => {
+    const newobj = shallowClone(obj);
+    Object.keys(newobj)
+      .filter(k => typeof newobj[k] === 'object')
+      .forEach(k => (newobj[k] = deepClone(newobj[k])));
+    return newobj;
+  };
+  const deepCloned = deepClone(ob1);
+  console.log('ob1        : ', ob1);
+  console.log('deepCloned : ', deepCloned);
+  console.log(ob1.nest === deepCloned.nest); // => false: object の比較結果が一致しないということは、アドレスが違うということ。
+  // アドレス不一致の確認
+  deepCloned.nest.nest.level = 99;
+  console.log('ob1.nest.nest.level       : ', ob1.nest.nest.level);
+  console.log('deepCloned.nest.nest.level: ', deepCloned.nest.nest.level);
 };
 // ---------------------------------------------------
 const main = () => {
