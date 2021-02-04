@@ -298,8 +298,45 @@ const introduceMergeAndCopy = () => {
   console.log('ob1.nest.nest.level       : ', ob1.nest.nest.level);
   console.log('deepCloned.nest.nest.level: ', deepCloned.nest.nest.level);
 };
+
+const differenceBetweenInAndhasOwnProperty = () => {
+  const obj = {};
+  // in は自身の親までたどるため、Object.prototype の中まで探す
+  console.log('in:           ', 'toString' in obj);
+  // hasOwnProperty は自身の中しか探さない
+  console.log('hasOwnProperty', obj.hasOwnProperty('toString'));
+
+  // ob はObject.prototype を継承する、という宣言方法。
+  // const ob = {} と同じ意味
+  const ob1 = Object.create(Object.prototype);
+  // Object.prototype を継承しないオブジェクトを作ることもできる。
+  const ob2 = Object.create(null);
+};
+
+const introduceClass = () => {
+  const SomeClass = class {
+    // 何もしないなら書かなくてもOK
+    constructor() {}
+  };
+
+  const someClass = new SomeClass();
+  console.log('someClass is a instance of SomeClass: ', someClass instanceof SomeClass);
+
+  const Point = class {
+    constructor(x, y) {
+      // this = インスタンス
+      this.x = x;
+      this.y = y;
+    }
+  };
+
+  const point = new Point(3, 4);
+  console.log(point.x);
+  console.log(point.y);
+};
+
 // ---------------------------------------------------
 const main = () => {
-  introduceMergeAndCopy();
+  introduceClass();
 };
 main();
