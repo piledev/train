@@ -240,7 +240,9 @@ const introduceToStringMethod = () => {
     const obj = {
         key: 'value',
     };
+    // object を文字列化すると期待通りにはならない。
     console.log(String(obj));
+
     const customObject = {
         toString() {
             return 'custom value';
@@ -249,6 +251,7 @@ const introduceToStringMethod = () => {
     // 実は String コンストラクタ関数は toString メソッドを呼んでいる。
     console.log(String(customObject));
 };
+
 // ---------------------------------------------------
 const main = () => {
     introduceToStringMethod();
