@@ -335,8 +335,99 @@ const introduceClass = () => {
   console.log(point.y);
 };
 
+const introduceFinds = () => {
+  const obj = { key: 'value' };
+  const arr = ['a', 'b', obj];
+  const conditionfunc = v => {
+    return v.key === 'value';
+  };
+  console.log('findIndex: ', arr.findIndex(conditionfunc));
+  console.log('find     : ', arr.find(conditionfunc));
+};
+
+const introduceArraysEtc = () => {
+  const arr = [[[['A'], 'B'], 'C'], 'D', 'E'];
+  const colors = [{ color: 'red' }, { color: 'blue' }, { color: 'green' }];
+  const conditionfunc = v => {
+    return v.color === 'blue';
+  };
+  const arr2 = ['A', 'B', 'C'];
+  const arr3 = [1, 2, 3];
+
+  console.log('arr.flat():         ', arr.flat());
+  console.log('arr.flat(1):        ', arr.flat(1));
+  console.log('arr.flat(2):        ', arr.flat(2));
+  console.log('arr.flat(Infinity): ', arr.flat(Infinity));
+
+  console.log('arr.indexOf("D"):   ', arr.indexOf('D'));
+  console.log('arr.indexOf("A"):   ', arr.indexOf('A'));
+
+  console.log('arr.slice(0,2):     ', arr.slice(0, 2));
+  console.log('arr.slice(-2,-1):   ', arr.slice(-2, -1));
+  console.log('arr.slice(-2):      ', arr.slice(-2));
+
+  console.log('arr.includes("D"):  ', arr.includes('D'));
+  console.log('colors.some({color:"blue"}): ', colors.some(conditionfunc));
+
+  console.log('arr2:              ', arr2);
+  arr2.push('D');
+  console.log('arr2.push("D"):    ', arr2);
+  arr2.pop();
+  console.log('arr2.pop():        ', arr2);
+  arr2.unshift('S');
+  console.log('arr2.unshift("S"): ', arr2);
+  arr2.shift();
+  console.log('arr2.shift():      ', arr2);
+
+  const newArr2 = arr2.concat(['D', 'E']);
+  console.log('newArr2 = arr2.concat(["D","E"]): ', newArr2);
+
+  const deleted = newArr2.splice(1, 3, 'X', 'Y');
+  console.log('deleted = newArr2.splice(1,3,"X","Y") => ');
+  console.log(' newArr2: ', newArr2);
+  console.log(' deleted: ', deleted);
+
+  // 反復処理
+  // forEach
+  arr2.forEach((v, i, arr) => {
+    console.log(v, i, arr);
+  });
+
+  // map
+  const newArr2_2 = arr2.map((v, i, arr) => {
+    return v + String(i);
+  });
+  console.log(newArr2_2);
+
+  // filter
+  const filteredArr3 = arr3.filter((v, i, arr) => {
+    return v % 2 === 1;
+  });
+  console.log(filteredArr3);
+
+  //reduce
+  const total = arr3.reduce((accumulator, v, i, arr) => {
+    return accumulator + v;
+  }, 0); // 初期値 0
+  console.log(total);
+};
+const introduceArrayLikeObject = () => {
+  const print = v => {
+    console.log(v);
+  };
+  // arrow関数にするとarguments は使えない様子。
+  function func() {
+    // arguments は array-like であって array ではない
+    console.log('arguments is Array:      ', Array.isArray(arguments));
+    // arguments.forEach(print); // TypeError: arguments.forEach is not a function
+    const argumentsArray = Array.from(arguments);
+    console.log('argumentsArray is Array: ', Array.isArray(argumentsArray));
+    argumentsArray.forEach(print);
+  }
+  func('A', 'B', 'C');
+};
 // ---------------------------------------------------
 const main = () => {
-  introduceClass();
+  introduceArrayLikeObject();
 };
 main();
