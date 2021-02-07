@@ -564,7 +564,15 @@ const introduceCodePoint = () => {
   console.log(resultu, captureu);
 
   console.log('code unit count:  ', sentence.length);
+  // Array.from() や for...of はcode point ごとに処理をする。
   console.log('code point count: ', Array.from(sentence).length);
+  for (const s of sentence) {
+    console.log(s);
+  }
+  // でもfor...in はコードユニットごとに処理をする
+  for (const index in sentence) {
+    console.log(sentence[index]);
+  }
 };
 // ---------------------------------------------------
 const main = () => {
