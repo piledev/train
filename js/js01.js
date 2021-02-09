@@ -574,8 +574,21 @@ const introduceCodePoint = () => {
     console.log(sentence[index]);
   }
 };
+
+const introduceScopeChain = () => {
+  {
+    let x = 1;
+    const y = 2;
+    {
+      let x = 10;
+      const y = 20;
+      console.log(x);
+      console.log(y);
+    }
+  }
+};
 // ---------------------------------------------------
 const main = () => {
-  introduceCodePoint();
+  introduceScopeChain();
 };
 main();
