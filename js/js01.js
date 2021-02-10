@@ -315,28 +315,6 @@ const differenceBetweenInAndhasOwnProperty = () => {
   const ob2 = Object.create(null);
 };
 
-const introduceClass = () => {
-  const SomeClass = class {
-    // 何もしないなら書かなくてもOK
-    constructor() {}
-  };
-
-  const someClass = new SomeClass();
-  console.log('someClass is a instance of SomeClass: ', someClass instanceof SomeClass);
-
-  const Point = class {
-    constructor(x, y) {
-      // this = インスタンス
-      this.x = x;
-      this.y = y;
-    }
-  };
-
-  const point = new Point(3, 4);
-  console.log(point.x);
-  console.log(point.y);
-};
-
 const introduceFinds = () => {
   const obj = { key: 'value' };
   const arr = ['a', 'b', obj];
@@ -587,8 +565,45 @@ const introduceScopeChain = () => {
     }
   }
 };
+
+const introduceClass1 = () => {
+  const SomeClass = class {
+    // 何もしないなら書かなくてもOK
+    constructor() {}
+  };
+
+  const someClass = new SomeClass();
+  console.log('someClass is a instance of SomeClass: ', someClass instanceof SomeClass);
+
+  const Point = class {
+    constructor(x, y) {
+      // this = インスタンス
+      this.x = x;
+      this.y = y;
+    }
+  };
+
+  const point = new Point(3, 4);
+  console.log(point.x);
+  console.log(point.y);
+};
+
+const introduceClass2 = () => {
+  class SomeClass {
+    method1 = () => {
+      return this;
+    };
+    method2() {
+      return this;
+    }
+  }
+  const someClass = new SomeClass();
+  const some = someClass;
+  console.log(some.method1());
+  console.log(some.method2());
+};
 // ---------------------------------------------------
 const main = () => {
-  introduceScopeChain();
+  introduceClass2();
 };
 main();
