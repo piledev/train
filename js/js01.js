@@ -590,20 +590,106 @@ const introduceClass1 = () => {
 
 const introduceClass2 = () => {
   class SomeClass {
-    method1 = () => {
+    constructor() {
+      // instance method
+      this.method1 = () => {
+        return this;
+      };
+    }
+
+    // prototype method (arrow function)
+    method2 = () => {
       return this;
     };
-    method2() {
+
+    // prototype method (method)
+    method3() {
       return this;
     }
   }
-  const someClass = new SomeClass();
-  const some = someClass;
-  console.log(some.method1());
-  console.log(some.method2());
+  const instance1 = new SomeClass();
+  const instance2 = new SomeClass();
+  console.log(instance1.method1 === instance2.method1);
+  console.log(instance1.method2 === instance2.method2);
+  console.log(instance1.method3 === instance2.method3);
+  let some = instance1.method1;
+  console.log('this of instance method in constructor:     ', some());
+  some = instance1.method2;
+  console.log('this of instance method out of constructor: ', some());
+  some = instance1.method3;
+  console.log('this of prototype method:                   ', some());
 };
+
+const introduceAccessor = () => {
+  class SomeClass {
+    constructor(x, y) {
+      // プライベートプロパティに _ をつけるのはただの慣習。
+      // 外部からのアクセスは普通にできる。
+      this._x = x;
+      this._y = y;
+      this._i = 0;
+    }
+    // 変数名とアクセサ名は合わせる必要はないし、getterとsetterも合わせる必要はない。
+    // でも普通は合わせる。
+    // getter
+    get g() {
+      return this._x + this._i++;
+    }
+    // setter
+    set s(value) {
+      this._x = value[0];
+    }
+
+    test() {
+      // getter を使うこともできる。
+      return this.g;
+    }
+    static make(x, y) {
+      return new this(x, y);
+    }
+  }
+  // new の代わりに作ったstatick method
+  const instance = SomeClass.make('X', 'Y');
+  // get
+  console.log(instance.g);
+  // get, set
+  instance.s = instance.g.toLowerCase();
+  // get
+  console.log(instance.g);
+  console.log(instance._i);
+  console.log(instance.test());
+  // test()でgetter を使っているからさらにincrement されている
+  console.log(instance._i);
+};
+
+const introduceExtends = () => {
+  class Parent {
+    constructor(...args) {
+      console.log('Parent: ', args.join(', '));
+      this._x = args[0];
+      this._y = args[1];
+    }
+
+    test = () => {
+      console.log('Parent().test was called.');
+    };
+  }
+
+  class Child extends Parent {
+    constructor(...args) {
+      super(...args);
+      console.log('Child:  ', args.join(', '));
+    }
+  }
+
+  const instance = new Child(1, 2, 3, 4, 5);
+  instance.test();
+  console.log(instance._x);
+  console.log(instance._y);
+};
+
 // ---------------------------------------------------
 const main = () => {
-  introduceClass2();
+  introduceExtends();
 };
 main();
