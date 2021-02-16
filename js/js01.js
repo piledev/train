@@ -573,7 +573,10 @@ const introduceClass1 = () => {
   };
 
   const someClass = new SomeClass();
-  console.log('someClass is a instance of SomeClass: ', someClass instanceof SomeClass);
+  console.log(
+    'someClass is a instance of SomeClass: ',
+    someClass instanceof SomeClass,
+  );
 
   const Point = class {
     constructor(x, y) {
@@ -688,8 +691,153 @@ const introduceExtends = () => {
   console.log(instance._y);
 };
 
+const introduceasynchronous = async () => {
+  const url = 'https://api.github.com/users/yokoyamada';
+  // // callback 地獄
+  // const fetchProfileCallbackHell = () => {
+  //   // 非同期処理であるfetchはPromiseを返すものだが、この関数自体はVoidを返す。
+  //   // => 明示的にPromiseを返すと書かないといけない。
+  //   fetch(url)
+  //     .then(
+  //       // 成功時のコールバック
+  //       res => {
+  //         res
+  //           .json()
+  //           .then(
+  //             // 成功時のコールバック
+  //             json => {
+  //               console.log('asynchronous Callback 1: ', json);
+  //               return json;
+  //             },
+  //             // 失敗時のコールバック（省略可だしcatchがあればこれは不要）
+  //             err => {
+  //               console.error(err);
+  //               return null;
+  //             },
+  //           )
+  //           .catch(err => {
+  //             console.error(err);
+  //           });
+  //       },
+  //       // 失敗時のコールバック（省略可だしcatchがあればこれは不要）
+  //       err => {
+  //         console.error(err);
+  //         return null;
+  //       },
+  //     )
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // };
+  // const profile1 = fetchProfileCallbackHell();
+  // console.log('asynchronous Callback 2: ', profile1);
+
+  // // Promise の例
+  // const fetchProfilePromise = () => {
+  //   return new Promise((resolve, reject) => {
+  //     fetch(url)
+  //       .then(
+  //         // 成功時のコールバック
+  //         res => {
+  //           res
+  //             .json()
+  //             .then(
+  //               // 成功時のコールバック
+  //               json => {
+  //                 console.log('asynchronous Promise 1: ', json);
+  //                 resolve(json);
+  //               },
+  //               // 失敗時のコールバック（省略可だしcatchがあればこれは不要）
+  //               err => {
+  //                 console.error(err);
+  //                 reject(null);
+  //               },
+  //             )
+  //             .catch(err => {
+  //               console.error(err);
+  //               reject(null);
+  //             });
+  //         },
+  //         // 失敗時のコールバック（省略可だしcatchがあればこれは不要）
+  //         err => {
+  //           console.error(err);
+  //           reject(null);
+  //         },
+  //       )
+  //       .catch(err => {
+  //         console.error(err);
+  //         reject(null);
+  //       });
+  //   });
+  // };
+  // fetchProfilePromise().then(profile => {
+  //   if (profile) {
+  //     console.log('asynchronous Promise 2: ', profile);
+  //   }
+  // });
+  // // ↑ シーケンス:
+  // 1. Promiseのコンストラクタが呼び出される
+  // 2. Promiseのexecutorが実行される
+  // 3. executorが非同期タスクを始動する(fetchだけのこと？)
+  // 4. executorがリターンする
+  // 5. コンストラクタがリターンする(Promiseの状態はpending)
+  // 6. コンストラクタを呼び出したコード(720行目)が最後まで実行される
+  // 7. 非同期タスクが完了する(fetchだけのこと？)
+  // 8. タスクのコールバックが呼び出される(thenのコールバックのこと？)
+  // 9. そのコールバックからresolveまたはrejectのハンドラが呼び出され、
+  //    プロミスが成功または失敗の状態に遷移する。
+  //    どちらの場合でもPromiseの状態はfulfilledになる。
+
+  // awync/await の例
+  const fetchProfileAsyncAwait = async () => {
+    // response を同期的に受け取る
+    const response = await fetch(url)
+      // .then(
+      //   // res => res
+      //   console.log('done 1'),
+      // )
+      .catch(err => {
+        console.error(err);
+        return null;
+      });
+
+    if (!response) {
+      return null;
+    }
+
+    await response
+      .json()
+      .then(j => {
+        console.log('asynchronous async/await 1: ', j);
+        return j;
+      })
+      .catch(err => {
+        console.error(err);
+        return null;
+      });
+  };
+
+  // awync/await の例
+  const fetchProfileAsyncAwaitTest = async () => {
+    // response を同期的に受け取る
+    const response = await fetch(url);
+
+    const res = await response.json().then(j => {
+      console.log('asynchronous async/await 1: ', j);
+    });
+    return res;
+  };
+
+  fetchProfileAsyncAwaitTest().then(v => {
+    console.log('asynchronous async/await 2: ', v);
+  });
+  //でもいいけど
+  const profile2 = await fetchProfileAsyncAwaitTest();
+  console.log('asynchronous async/await 2: ', profile2);
+};
+
 // ---------------------------------------------------
 const main = () => {
-  introduceExtends();
+  introduceasynchronous();
 };
 main();
