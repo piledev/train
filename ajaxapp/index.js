@@ -1,4 +1,4 @@
-console.log('index.js: loaded');
+// console.log('index.js: loaded');
 
 // // CSSセレクタを使ってDOMツリーのh2要素を取得する
 // const heading = document.querySelector('h2');
@@ -13,26 +13,25 @@ console.log('index.js: loaded');
 // document.body.appendChild(button);
 const main = () => {
   const userId = document.getElementById('userid').value;
-  console.log(userId);
-  fetchUserInfo(userId);
+  fetchUserInfo(userId).catch(err => {
+    console.error(`Error!: ${err}`);
+  });
 };
 
 const fetchUserInfo = userId => {
   const url = `https://api.github.com/users/${encodeURIComponent(userId)}`;
-  fetch(url)
-    .then(res => {
-      if (!res.ok) {
-        console.error('error response: ', res);
-      } else {
-        return res.json().then(userInfo => {
-          const view = createView(userInfo);
-          displayView(view);
-        });
-      }
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  return fetch(url).then(res => {
+    if (!res.ok) {
+      return Promise.reject(
+        new Error(`${response.status}: ${response.statusText}`),
+      );
+    } else {
+      return res.json().then(userInfo => {
+        const view = createView(userInfo);
+        displayView(view);
+      });
+    }
+  });
 };
 
 const createView = userInfo => {
