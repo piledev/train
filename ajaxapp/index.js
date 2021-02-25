@@ -13,9 +13,12 @@
 // document.body.appendChild(button);
 const main = () => {
   const userId = document.getElementById('userid').value;
-  fetchUserInfo(userId).catch(err => {
-    console.error(`Error!: ${err}`);
-  });
+  fetchUserInfo(userId)
+    .then(userInfo => createView(userInfo))
+    .then(view => displayView(view))
+    .catch(err => {
+      console.error(`Error!: ${err}`);
+    });
 };
 
 const fetchUserInfo = userId => {
@@ -26,25 +29,22 @@ const fetchUserInfo = userId => {
         new Error(`${response.status}: ${response.statusText}`),
       );
     } else {
-      return res.json().then(userInfo => {
-        const view = createView(userInfo);
-        displayView(view);
-      });
+      return res.json();
     }
   });
 };
 
 const createView = userInfo => {
   return escapeHTML`
-            <h4>${userInfo.name} (@${userInfo.login})</h4>
-            <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
-            <dl>
-              <dt>Location</dt>
-              <dd>${userInfo.location}</dd>
-              <dt>Repositories</dt>
-              <dd>${userInfo.public_repos}</dd>
-            </dl>
-          `;
+        <h4>${userInfo.name} (@${userInfo.login})</h4>
+        <img src="${userInfo.avatar_url}" alt="${userInfo.login}" height="100">
+        <dl>
+          <dt>Location</dt>
+          <dd>${userInfo.location}</dd>
+          <dt>Repositories</dt>
+          <dd>${userInfo.public_repos}</dd>
+        </dl>
+        `;
 };
 
 const displayView = view => {
