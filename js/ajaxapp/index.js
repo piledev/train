@@ -11,14 +11,19 @@
 // button.textContent = 'Push Me';
 // // body要素の子要素としてbuttonを挿入する
 // document.body.appendChild(button);
-const main = () => {
-  const userId = document.getElementById('userid').value;
-  fetchUserInfo(userId)
-    .then(userInfo => createView(userInfo))
-    .then(view => displayView(view))
-    .catch(err => {
-      console.error(`Error!: ${err}`);
-    });
+const main = async () => {
+  const userId = getUserId();
+  try {
+    const userInfo = await fetchUserInfo(userId);
+    const view = createView(userInfo);
+    displayView(view);
+  } catch (err) {
+    console.error(`Error!: ${err}`);
+  }
+};
+
+const getUserId = () => {
+  return document.getElementById('userid').value;
 };
 
 const fetchUserInfo = userId => {
