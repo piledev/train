@@ -14,6 +14,8 @@ export const escapeSpecialChars = str => {
 export const htmlToElement = html => {
   const template = document.createElement('template');
   template.innerHTML = html;
+  console.log(template.innerHTML);
+  // console.log(template.content.firstElementChild);
   return template.content.firstElementChild;
 };
 
