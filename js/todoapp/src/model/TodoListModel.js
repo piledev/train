@@ -37,6 +37,7 @@ export class TodoListModel extends EventEmitter {
    * 状態が変更されたときに呼ぶ。登録済みのリスナー関数を呼び出す
    */
   emitChange() {
+    console.log('  emitChange() is called.');
     this.emit('change');
   }
 
@@ -45,7 +46,37 @@ export class TodoListModel extends EventEmitter {
    * @param {TodoItemModel} todoItem
    */
   addTodo(todoItem) {
+    console.log(`  addTodo() is called.`);
     this.items.push(todoItem);
+    this.emitChange();
+  }
+
+  /**
+   * 指定したidのTodoItemのcompletedを更新する
+   * @param {{ id:number, completed: boolean }}
+   */
+  updateTodo({ id, completed }) {
+    console.log(`  updateTodo() is called.`);
+    // id が一致するTodoItemを見つけ、あるなら完了状態の値を更新する
+    // こちらも参照渡し
+    const todoItem = this.items.find(todo => todo.id === id);
+    if (!todoItem) {
+      return;
+    }
+    todoItem.completed = completed;
+    this.emitChange();
+  }
+
+  /**
+   * 指定したidのTodoItemを削除する
+   * @param {{ id:number }}
+   */
+  deleteTodo({ id }) {
+    console.log(`  deleteTodo() is called.`);
+    // `id`に一致しないTodoItemだけを残すことで、`id`に一致するTodoItemを削除する
+    this.items = this.items.filter(todo => {
+      return todo.id !== id;
+    });
     this.emitChange();
   }
 }

@@ -14,7 +14,7 @@ export const escapeSpecialChars = str => {
 export const htmlToElement = html => {
   const template = document.createElement('template');
   template.innerHTML = html;
-  console.log(template.innerHTML);
+  // console.log(template.innerHTML);
   // console.log(template.content.firstElementChild);
   return template.content.firstElementChild;
 };
@@ -41,6 +41,7 @@ export const element = (strings, ...values) => {
  * @param {Element} containerElement コンテナ要素
  */
 export const render = (bodyElement, containerElement) => {
+  console.log('    render() is called.');
   containerElement.innerHTML = '';
   containerElement.appendChild(bodyElement);
 };

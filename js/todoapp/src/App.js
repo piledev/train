@@ -9,29 +9,77 @@ export class App {
   }
 
   mount() {
+    // console.log('0. mount() is called');
     const formElement = document.querySelector('#js-form');
     const inputElement = document.querySelector('#js-form-input');
     const containerElement = document.querySelector('#js-todo-list');
     const todoItemCountElement = document.querySelector('#js-todo-count');
 
     // 2. TodoListModelの状態が更新されたら表示を更新する
+    // (= todoListModel.emit() に反応して表示を更新する)
     this.todoListModel.onChange(() => {
+      console.log(`  todoListModel's change event has started.`);
       // TodoリストをまとめるList要素
       const todoListElement = element`<ul />`;
       // それぞれのTodoItem要素をtodoListElement以下へ追加する
       const todoItems = this.todoListModel.getTodoItems();
       todoItems.forEach(item => {
-        const todoItemElement = element`<li>${item.title}</li>`;
+        // console.log(
+        //   `item.id: ${item.id}; item.title: ${item.title}; item.completed: ${item.completed}`,
+        // );
+        // 完了済みならchecked属性をつけ、未完了ならchecked属性を外す
+        const todoItemElement = item.completed
+          ? element`<li>
+            <input type="checkbox" class="checkbox" checked>
+            <s>${item.title}</s>
+            <button class="delete">x</button>
+          </li>`
+          : element`<li>
+            <input type="checkbox" class="checkbox">
+            ${item.title}
+            <button class="delete">x</button>
+          </li>`;
+        // チェックボックスがトグルしたときのイベントにリスナー関数を登録
+        // todoItemElement中のcheckboxクラスに該当するものを取得する
+        const inputCheckboxElement = todoItemElement.querySelector('.checkbox');
+        // この'change'イベントはHTMLから発せられるものを想定
+        inputCheckboxElement.addEventListener('change', () => {
+          console.log(
+            `inputCheckboxElement(id: ${item.id})'s change event has started.`,
+          );
+          // 指定したTodoアイテムの完了状態を反転させる
+          // と同時にupdateTodo内で'change'をディスパッチ
+          // => todoListModel.onCheange()のコールバックが動く
+          // => HTMLを作成しながら、各inputCheckboxElementへのこのリスナー関数登録も行う
+          // 　（親要素のtodoListModelが変更になったのだから子要素はいちから定義されて当前）
+          this.todoListModel.updateTodo({
+            id: item.id,
+            completed: !item.completed,
+          });
+          console.log(
+            `inputCheckboxElement(id: ${item.id})'s change event has finished.`,
+          );
+        });
+
+        const deleteButtonElement = todoItemElement.querySelector('.delete');
+        deleteButtonElement.addEventListener('click', () => {
+          this.todoListModel.deleteTodo({
+            id: item.id,
+          });
+        });
+
         todoListElement.appendChild(todoItemElement);
       });
       // containerElementの中身をtodoListElementで上書きする
       render(todoListElement, containerElement);
       // アイテム数の表示を更新
       todoItemCountElement.textContent = `Todoアイテム数: ${this.todoListModel.getTotalCount()}`;
+      console.log(`  todoListModel's change event has finished.`);
     });
 
     // 3. フォームを送信したら、新しいTodoItemModelを追加する
     formElement.addEventListener('submit', event => {
+      console.log(`formElement's submit event has started.`);
       // 本来のsubmitイベントの動作を止める
       event.preventDefault();
       // 新しいTodoItemをTodoListへ追加する
@@ -42,6 +90,7 @@ export class App {
         }),
       );
       inputElement.value = '';
+      console.log(`formElement's submit event has finished.`);
     });
   }
 }

@@ -32,6 +32,7 @@ export class EventEmitter {
     listenerSet.forEach(listener => {
       // this: listener関数の中でthisとして使用されるもの
       // この例では、TodoListModelだった。
+      console.log(`    emit('${type}') is called.`);
       listener.call(this);
     });
   }
