@@ -1,0 +1,10 @@
+#js-three-container {
+  align-items: center;
+  font-size: 30px;
+}
+.data {
+  background-color: lightgray;
+  text-align: center;
+  padding: 30px;
+  size: 120px;
+}

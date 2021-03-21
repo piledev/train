@@ -1,19 +1,30 @@
-const main = () => {
-  const target = [];
+'use strict';
+import { App } from './src/App.js';
+
+const readTileElements = () => {
+  const tileElements = [];
+  for (let i = 0; i < 3; i++) {
+    if (!tileElements[i]) {
+      tileElements[i] = [];
+    }
+    for (let j = 0; j < 3; j++) {
+      const id = '#js-td-' + String(i) + String(j);
+      tileElements[i][j] = document.querySelector(id);
+    }
+  }
+  return tileElements;
 };
 
-// 8この配列を配列に格納して2次元配列を作る
-const getEightLines = () => {
-  const eightLines;
-  return eightLines;
-};
+const boardElement = document.querySelector('#js-board');
+const tileElements = readTileElements();
 
-const is_three = mark => {
-  return true;
-};
+const app = new App({ boardElement, tileElements });
 
-// 以下は対戦相手の実装アイデア -------------------------------
-const is_two = (mark, line) => {
-  const indexOfSpace;
-  return true, indexOfSpace;
-};
+// ページのロードが完了したときのイベント
+window.addEventListener('load', () => {
+  app.mount();
+});
+// ページがアンロードされたときのイベント
+window.addEventListener('unload', () => {
+  app.unmount();
+});
